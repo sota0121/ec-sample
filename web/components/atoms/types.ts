@@ -1,4 +1,3 @@
-
 export type sentenceClass =
   | 'h1'
   | 'h2'
