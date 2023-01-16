@@ -10,18 +10,42 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import theme from '@/src/theme'
+import theme from '@/tools/theme'
 import Copyright from '@/components/templates/Copyright'
+import { useSignInState } from '@/contexts/SignInState'
+
+// Trial Implementation
+const demoUser = {
+  email: 'test@s.com',
+  password: 'test',
+}
 
 export default function SignInPage() {
+  // State
+  const { state, setSignInState } = useSignInState()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+
+    // trial implementation
+    if (data.get('email') === demoUser.email && data.get('password') === demoUser.password) {
+      setSignInState('signedIn')
+      console.log('success')
+    } else {
+      setSignInState('signedOut')
+      console.log('failed')
+    }
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     })
   }
+
+  // Side Effects
+  React.useEffect(() => {
+    console.log('SignInPage: state', state)
+  }, [state])
 
   // TODO: Add validation
   // TODO: Split the components into smaller components (e.g. atoms/molecules/organisms)
