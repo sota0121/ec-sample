@@ -6,12 +6,14 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { RecoilRoot } from 'recoil'
 import theme from '@/tools/theme'
 import createEmotionCache from '@/tools/createEmotionCache'
+import { initializeFirebaseApp } from '@/libs/firebase/initialization'
 
 const clientSideEmotionCache = createEmotionCache()
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache
 }
 
+initializeFirebaseApp()
 export default function App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (

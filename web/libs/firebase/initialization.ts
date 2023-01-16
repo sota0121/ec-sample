@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, FirebaseOptions } from 'firebase/app'
+import { initializeApp, FirebaseOptions, getApps, getApp } from 'firebase/app'
 import * as Env from '@/constants/env'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,3 +16,5 @@ const firebaseConfig: FirebaseOptions = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
+export const initializeFirebaseApp = () =>
+  !getApps().length ? initializeApp(firebaseConfig) : getApp()
