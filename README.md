@@ -37,6 +37,7 @@ make fmt
 ### Run server
 
 ```bash
+make gen_env # setup .env file
 make run
 ```
 
@@ -56,4 +57,22 @@ make debug
 
 ```bash
 make generate
+```
+
+## Setup for development
+
+- [firebase-tools](https://firebase.google.com/docs/cli#install-cli-mac-linux)
+
+```bash
+npm install -g firebase-tools
+```
+
+## Start development
+
+### Set ready for firebase
+
+```bash
+firebase login
+firebase init # only first time
+firebase use $PROJECT_ID # exec if you want to change project
 ```
