@@ -1,16 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, FirebaseOptions } from 'firebase/app'
+import * as Env from '@/constants/env'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
-  apiKey: 'AIzaSyDhfx-zVYUXxq-kIPDVHbaa5MxNQ-NMQ2Q',
-  authDomain: 'rakubuy-next.firebaseapp.com',
-  projectId: 'rakubuy-next',
-  storageBucket: 'rakubuy-next.appspot.com',
-  messagingSenderId: '434472653955',
-  appId: '1:434472653955:web:3b3dcb19fdd7a757fa77b6',
+  apiKey: Env.FIREBASE_API_KEY,
+  authDomain: Env.FIREBASE_AUTH_DOMAIN,
+  projectId: Env.FIREBASE_PROJECT_ID,
+  storageBucket: Env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: Env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: Env.FIREBASE_APP_ID,
 }
 
 // Initialize Firebase
