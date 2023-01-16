@@ -1,12 +1,16 @@
 import { NextPage } from 'next'
 import { Box, Button, Container, Grid, Typography } from '@mui/material'
+import HomePage from '@/components/pages/HomePage'
+
+const overviewContent = `
+  Raku-Buy is a web application that allows you to buy and sell items.
+  You can also create your own shop and sell your items.
+  `
 
 const Home: NextPage = () => {
   return (
     <>
-      <Button variant='contained' color='primary'>
-        Move To Album Page
-      </Button>
+      <HomePage title='Raku-Buy' overviewContent={overviewContent} />
     </>
   )
 }
