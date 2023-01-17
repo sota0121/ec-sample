@@ -23,27 +23,30 @@ type FormValues = {
   password: string
 }
 
-// Sign Up
-const signUp = async (email: string, password: string) => {
-  try {
-    // TODO: Split this into Domain Layer and Infrastructure Layer
-    const { app } = useFirebaseApp()
-    const auth = getAuth(app)
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    await sendEmailVerification(userCredential.user)
-  } catch (error) {
-    // catch error for firebase
-    if (error instanceof FirebaseError) {
-      // TODO: Handle error then show error message to user
-      console.log(`FirebaseError: ${error.code} ${error.message}`)
-    }
-  }
-}
-
 export default function SignUpPage() {
   // // State
   // const [email, setEmail] = React.useState('')
   // const [password, setPassword] = React.useState('')
+  const { app } = useFirebaseApp()
+
+  // Sign up core function
+  const signUp = async (email: string, password: string) => {
+    try {
+      // TODO: Split this into Domain Layer and Infrastructure Layer
+      const auth = getAuth(app)
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      await sendEmailVerification(userCredential.user)
+      console.log('request sent')
+    } catch (error) {
+      // catch error for firebase
+      if (error instanceof FirebaseError) {
+        // TODO: Handle error then show error message to user
+        console.log(`FirebaseError: ${error.code} ${error.message}`)
+      } else {
+        console.log('error', error)
+      }
+    }
+  }
 
   // Hooks
   const {
