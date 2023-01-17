@@ -1,7 +1,9 @@
 import * as React from 'react'
+import { SubmitHandler, useForm, Controller } from 'react-hook-form'
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from 'firebase/auth'
+import { FirebaseError } from 'firebase/app'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
@@ -12,15 +14,51 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Copyright from '@/components/templates/Copyright'
+import { useFirebaseApp } from '@/contexts/FirebaseApp'
+
+type FormValues = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
+
+// Sign Up
+const signUp = async (email: string, password: string) => {
+  try {
+    // TODO: Split this into Domain Layer and Infrastructure Layer
+    const { app } = useFirebaseApp()
+    const auth = getAuth(app)
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+    await sendEmailVerification(userCredential.user)
+  } catch (error) {
+    // catch error for firebase
+    if (error instanceof FirebaseError) {
+      // TODO: Handle error then show error message to user
+      console.log(`FirebaseError: ${error.code} ${error.message}`)
+    }
+  }
+}
 
 export default function SignUpPage() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+  // // State
+  // const [email, setEmail] = React.useState('')
+  // const [password, setPassword] = React.useState('')
+
+  // Hooks
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>()
+
+  // Handlers
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log('data', data)
+    signUp(data.email, data.password)
+    reset()
   }
 
   // TODO: Add validation
@@ -41,48 +79,80 @@ export default function SignUpPage() {
         <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
-        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete='given-name'
+              <Controller
                 name='firstName'
-                required
-                fullWidth
-                id='firstName'
-                label='First Name'
-                autoFocus
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    autoComplete='given-name'
+                    required
+                    fullWidth
+                    id='firstName'
+                    label='First Name'
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                    autoFocus
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id='lastName'
-                label='Last Name'
+              <Controller
                 name='lastName'
-                autoComplete='family-name'
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id='lastName'
+                    label='Last Name'
+                    autoComplete='family-name'
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id='email'
-                label='Email Address'
+              <Controller
                 name='email'
-                autoComplete='email'
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id='email'
+                    label='Email Address'
+                    autoComplete='email'
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <Controller
                 name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='new-password'
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    label='Password'
+                    type='password'
+                    id='password'
+                    autoComplete='new-password'
+                    error={fieldState.invalid}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
