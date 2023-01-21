@@ -45,6 +45,7 @@
     "babel-loader": "^8.3.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-storybook": "^0.6.10",
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "webpack": "^5.75.0"
   }
 }

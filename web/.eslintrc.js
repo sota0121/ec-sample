@@ -1,11 +1,5 @@
 module.exports = {
-  extends: [
-    'next/core-web-vitals',
-    // 'plugin:import/recommended',
-    // 'plugin:import/warnings',
-    // 'plugin:react/recommended',
-    'prettier',
-  ],
+  extends: ['next/core-web-vitals', 'prettier', 'plugin:storybook/recommended'],
   rules: {
     // indent: ['error', 2],
     // 'import/order': [
@@ -16,5 +10,5 @@ module.exports = {
     //     },
     //   },
     // ],
-  },
-}
+  }
+};
